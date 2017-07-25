@@ -56,7 +56,8 @@ class ComTypeWorkbook(BaseWorkbook):
         :return: Tuple of containing sheets
         :rtype: tuple of [BaseWorksheet]
         """
-        raise NotImplementedError()
+        names = [sh.name for sh in self.workbook.Worksheets]
+        return [self.get_sheet(n) for n in names]
 
     @property
     def name(self):
