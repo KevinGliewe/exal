@@ -85,6 +85,7 @@ class BaseWorkbook(object):
         Saves the Workbook under given Path to Disk.
         :param filepath: Path to save Workbook
         :type filepath: str
+        :rtype: BaseWorkbook
         """
         raise NotImplementedError()
 
@@ -138,6 +139,15 @@ class BaseWorksheet(object):
         :type position: tuple of [int]
         :return: Cell Object
         :rtype: BaseCell
+        """
+        raise NotImplementedError()
+    
+    def addImage(self, position, imagePath):
+        """
+        :param position: Position in 2-Dimensions (f. example: (1, 42))
+        :type position: tuple of [int]
+        :param imagePath: Path to image file
+        :type position: str
         """
         raise NotImplementedError()
 

@@ -90,6 +90,7 @@ class ComTypeWorkbook(BaseWorkbook):
         :type filepath: str
         """
         self.workbook.SaveAs(filepath)
+        return self
 
     def close(self):
         """
@@ -145,6 +146,17 @@ class ComTypeWorksheet(BaseWorksheet):
         :rtype: BaseCell
         """
         return ComTypeCell(self, position, self.worksheet.Cells(*position))
+
+    def addImage(self, position, imagePath):
+        """
+        :param position: Position in 2-Dimensions (f. example: (1, 42))
+        :type position: tuple of [int]
+        :param imagePath: Path to image file
+        :type position: str
+        """
+        address = helper.pos2address(*position)
+        rng = self.workbook.Range(address)
+        self.worksheet.Shapes.AddPicture(imagePath, LinkToFile=False, SaveWithDocument=True, Left=rng.Left, Top=rng.Top)
 
 class ComTypeRange(BaseRange):
     """ Abstract Range """

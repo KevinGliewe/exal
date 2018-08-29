@@ -7,6 +7,8 @@ import xlwings
 import os
 import time
 
+from .. import helper
+
 class XLWingsDriver(BaseDriver):
     """  """
     def __init__(self):
@@ -97,8 +99,10 @@ class XLWingsWorkbook(BaseWorkbook):
         Saves the Workbook under given Path to Disk.
         :param filepath: Path to save Workbook
         :type filepath: str
+        :rtype: BaseWorkbook
         """
         self.workbook.save(os.path.abspath(filepath))
+        return self.driver.open_workbook_from_file(filepath)
 
     def close(self):
         """
@@ -119,7 +123,7 @@ class XLWingsWorksheet(BaseWorksheet):
         """
         super(XLWingsWorksheet, self).__init__(workbook)
         self._name = name
-        self.__sheet__ = workbook.workbook.sheets['name']
+        self.__sheet__ = workbook.workbook.sheets[name]
 
     @property
     def name(self):
@@ -161,6 +165,17 @@ class XLWingsWorksheet(BaseWorksheet):
         :rtype: BaseCell
         """
         return XLWingsCell(self, position)
+
+    def addImage(self, position, imagePath):
+        """
+        :param position: Position in 2-Dimensions (f. example: (1, 42))
+        :type position: tuple of [int]
+        :param imagePath: Path to image file
+        :type position: str
+        """
+        address = helper.pos2address(position[0], position[1])
+        rng = self.__sheet__.range(address)
+        self.__sheet__.pictures.add(imagePath, top=rng.top, left=rng.left)
 
 class XLWingsRange(BaseRange):
     """ Abstract Range """
