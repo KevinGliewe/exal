@@ -3,6 +3,7 @@ __author__ = 'Kevin'
 from basedriver import *
 from openpyxl import load_workbook
 from openpyxl import Workbook
+from openpyxl.drawing.image import Image
 from .. import helper
 import os
 
@@ -88,6 +89,7 @@ class OpenpyxlWorkbook(BaseWorkbook):
         :type filepath: str
         """
         self.workbook.save(filepath)
+        return self
 
     def close(self):
         """
@@ -147,6 +149,20 @@ class OpenpyxlWorksheet(BaseWorksheet):
                                 column=position[1]
                             )
         )
+
+    def addImage(self, position, imagePath):
+        """
+        :param position: Position in 2-Dimensions (f. example: (1, 42))
+        :type position: tuple of [int]
+        :param imagePath: Path to image file
+        :type position: str
+        """
+        address = helper.pos2address(position[0], position[1])
+
+        img = Image(imagePath)
+        img.anchor = address
+
+        self.worksheet.add_image(img)
 
 
 class OpenpyxlRange(BaseRange):

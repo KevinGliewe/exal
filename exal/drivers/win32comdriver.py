@@ -126,6 +126,7 @@ class Win32ComWorkbook(BaseWorkbook):
         :type filepath: str
         """
         self.workbook.SaveAs(filepath)
+        return self
 
     def close(self):
         """
@@ -181,6 +182,15 @@ class Win32ComWorksheet(BaseWorksheet):
         :rtype: BaseCell
         """
         return Win32ComCell(self, position, self.worksheet.Cells(*position))
+
+    def addImage(self, position, imagePath):
+        """
+        :param position: Position in 2-Dimensions (f. example: (1, 42))
+        :type position: tuple of [int]
+        :param imagePath: Path to image file
+        :type position: str
+        """
+        raise NotImplementedError()
 
 class Win32ComRange(BaseRange):
     """ Abstract Range """
