@@ -89,7 +89,7 @@ class ComTypeWorkbook(BaseWorkbook):
         :param filepath: Path to save Workbook
         :type filepath: str
         """
-        self.workbook.SaveAs(filepath)
+        self.workbook.SaveCopyAs(filepath)
         return self
 
     def close(self):
@@ -155,8 +155,8 @@ class ComTypeWorksheet(BaseWorksheet):
         :type position: str
         """
         address = helper.pos2address(*position)
-        rng = self.workbook.Range(address)
-        self.worksheet.Shapes.AddPicture(imagePath, LinkToFile=False, SaveWithDocument=True, Left=rng.Left, Top=rng.Top)
+        rng = self.worksheet.Range(address)
+        self.worksheet.Shapes.AddPicture(imagePath, False, True, rng.Left, rng.Top, -1, -1)
 
 class ComTypeRange(BaseRange):
     """ Abstract Range """
